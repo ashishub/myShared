@@ -6,6 +6,11 @@
  * Made By MaterializeCSS.com
  */
 
+ html, body {
+     height: 100%;
+     background-color: rgb(244, 244, 244);
+ }
+
 .icon-block {
   padding: 0 15px;
 }
@@ -18,6 +23,12 @@ nav {
 }
 .page-footer {
     padding-top: 0px;
+    background-color: rgb(4, 11, 35);
+    color: rgb(51, 51, 51);
+    /*position: fixed;
+    right: 0;
+  bottom: 0;
+  left: 0;*/
 }
 
 span.badge {
@@ -29,6 +40,42 @@ span.badge {
 
 table.highlight tbody tr:hover {
     background-color: #90a4ae !important;
+}
+
+.loginTitle {
+    background-color: #001489;
+    padding: 1rem;
+}
+
+.loginTitle img {
+    width: 215px !important;
+    height: 55px;
+    position: relative;
+    top: 11px;
+}
+
+.cardActionButtons {
+    text-transform: none !important;
+    font-weight: bold;
+}
+
+.no-margin-bot {
+    margin-bottom: 0px;
+}
+
+.napaActionButton {
+    color: rgb(0, 20, 137);
+    background-color: rgb(255, 199, 44);
+}
+
+.napaActionButton:hover {
+    background-color: #fdd835;
+}
+
+@media only screen and (max-width: 460px) {
+  .pagination li i {
+    font-size: 0.9rem;
+}
 }
 
 /*th {
