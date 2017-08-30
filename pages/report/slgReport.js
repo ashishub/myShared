@@ -6,6 +6,7 @@
     var noOfRowsDisplayed = 10;
     var startRowNo = 1;
     var endRowNo = 10;
+    var leadResponse = null;
 
     /** initialize dropdown for MaterializeCSS */
     $('select').material_select();
@@ -31,6 +32,14 @@
 
     loadLeads();
 
+
+    // TODO
+    function nextClicked() 
+    {
+
+    }
+
+    /** Call webservice and get the data from back end */
     function loadLeads() 
     {
         $.get('data/SLG_Mock.json', function(data) 
@@ -39,8 +48,7 @@
             console.log("message is::"+ data.response[0]);
             if(undefined != data && null != data && undefined != data.response && null != data.response && data.response.length > 0)
             {
-                var lead;
-                var title, listPrice, storeQty, dcQty, storeNum, tbRow, partDesc;
+                leadResponse = data.response;
                 if(data.response.length < noOfRowsDisplayed)
                 {
                     noOfRowsDisplayed = data.response.length;
@@ -52,83 +60,118 @@
                     startRowNo = 1;
                     endRowNo = noOfRowsDisplayed;
                 }
-                for (var i = 0; i < data.response.length; i ++)
-                {
-                    if(i == endRowNo)
-                    {
-                        // last recored reached. Stop.
-                        $('#paginationText').text(startRowNo + "-" + endRowNo + " of " + data.response.length);
-                        break;
-                    }
-                    lead = data.response[i];
-                    title = "";
-                    listPrice = "";
-                    storeQty = "";
-                    dcQty = "";
-                    storeNum = "";
-                    if(isEmptyOrBlank(lead.PartNumber) && $.trim(lead.PartNumber) != "")
-                    {
-                        title = $.trim(lead.PartNumber);
-                    }
-                    else
-                    {
-                        title = $.trim(lead.SearchedKeyword);
-                    }
-
-
-                    if(!isEmptyOrBlank(lead.ListPrice))
-                    {
-                        listPrice = $.trim(lead.ListPrice);
-                    }
-                    if(!isEmptyOrBlank(lead.Partdescription))
-                    {
-                        partDesc = $.trim(lead.Partdescription);
-                    }
-                    if(!isEmptyOrBlank(lead.Store_Quantity))
-                    {
-                        storeQty = $.trim(lead.Store_Quantity);
-                    }
-                    if(!isEmptyOrBlank(lead.DC_Quantity))
-                    {
-                        dcQty = $.trim(lead.DC_Quantity);
-                    }
-                    if(!isEmptyOrBlank(lead.NapaStoreNumber))
-                    {
-                        storeNum = $.trim(lead.NapaStoreNumber);
-                    }
-
-                    tbRow = '<li class="collection-item avatar">' +
-                            '<img src="images/header_logo.png" alt="" class="circle">';
-                    if($.trim(partDesc) == "")
-                    {
-                        tbRow = tbRow + '<span class="title"><strong>'+ title +'</strong></span>'; 
-                    }
-                    else
-                    {
-                        tbRow = tbRow + '<span class="title tooltipped" data-position="top" data-delay="50" data-tooltip="'+ partDesc +'"><strong>'+ title +'</strong><i class="tiny material-icons napaBlue">info</i></span>'; 
-                    }
-                    tbRow = tbRow +     
-                            '<p>' +
-                                'List Price: $' +listPrice+ ' <br> ' +
-                                'Quantity - Store: ' + storeQty + ' | Dc: ' + dcQty + '<br>' +
-                                'Store #: ' + storeNum +
-                                
-                            '</p>' +
-                            '<a class=" secondary-content btn-floating btn-small waves-effect waves-light napaActionButton">' +
-                                '<i class="small material-icons">mode_edit</i>' +
-                            '</a>' +
-                        '</li>'; 
-                        $('ul#mobileTableContents').append(tbRow);
-                        $('.tooltipped').tooltip({delay: 50});
-
-                }
+                loadTable(startRowNo, endRowNo);
+            }
+            else
+            {
+                // when there are no assigned leads.
+                // TODO
             }
         });
     }
 
+    function loadTable(startRow, endRow) 
+    {
+        var lead;
+        var title, listPrice, storeQty, dcQty, storeNum, tbRow, partDesc;
+        if(startRow < leadResponse.length && leadResponse.length < endRow)
+        {
+            endRow = leadResponse.length;
+        }
+        else if (startRow > leadResponse.length)
+        {
+            // no rows to display.
+            // TODO disable the next button.
+            console.log("no rows to display");
+            return;
+        }
+        startRowNo = startRow;
+        endRowNo = endRow;
+        for (var i = startRow - 1; i < endRow; i ++)
+        {
+            lead = leadResponse[i];
+            title = "";
+            listPrice = "";
+            storeQty = "";
+            dcQty = "";
+            storeNum = "";
+            if(isEmptyOrBlank(lead.PartNumber) && $.trim(lead.PartNumber) != "")
+            {
+                title = $.trim(lead.PartNumber);
+            }
+            else
+            {
+                title = $.trim(lead.SearchedKeyword);
+            }
+            if(!isEmptyOrBlank(lead.ListPrice))
+            {
+                listPrice = $.trim(lead.ListPrice);
+            }
+            if(!isEmptyOrBlank(lead.Partdescription))
+            {
+                partDesc = $.trim(lead.Partdescription);
+            }
+            if(!isEmptyOrBlank(lead.Store_Quantity))
+            {
+                storeQty = $.trim(lead.Store_Quantity);
+            }
+            if(!isEmptyOrBlank(lead.DC_Quantity))
+            {
+                dcQty = $.trim(lead.DC_Quantity);
+            }
+            if(!isEmptyOrBlank(lead.NapaStoreNumber))
+            {
+                storeNum = $.trim(lead.NapaStoreNumber);
+            }
 
+            tbRow = '<li class="collection-item avatar">' +
+                    '<img src="images/header_logo.png" alt="" class="circle">';
+            if($.trim(partDesc) == "")
+            {
+                tbRow = tbRow + '<span class="title"><strong>'+ title +'</strong></span>'; 
+            }
+            else
+            {
+                tbRow = tbRow + '<span class="title tooltipped" data-position="top" data-delay="50" data-tooltip="'+ partDesc +'"><strong>'+ title +'</strong><i class="tiny material-icons napaBlue">info</i></span>'; 
+            }
+            if(storeQty == "")
+            {
+                storeQty = "N/A";
+            }
+            if(dcQty == "")
+            {
+                dcQty = "N/A";
+            }
+            tbRow = tbRow +     
+                    '<p>' +
+                        'List Price: $' +listPrice+ ' <br> ' +
+                        'Store #: ' + storeNum + '<br>' +
+                        
+                        // 'Quantity - Store: ' + storeQty + ' | Dc: ' + dcQty + '<br>' +
+                        'Quantity - Store: <span class="greenBadge">' + storeQty + '</span> DC: <span class="yellowBadge">' + dcQty + '</span><br>' +
+                        
+                    '</p>' +
+                    '<a class=" secondary-content btn-floating btn-small waves-effect waves-light napaActionButton">' +
+                        '<i class="small material-icons">mode_edit</i>' +
+                    '</a>' +
+                '</li>'; 
+            $('ul#mobileTableContents').append(tbRow);
+            if(i == endRow - 1)
+            {
+                // last recored reached. Stop.
+                $('.tooltipped').tooltip({delay: 50});
+                resetPaginationLabel();
+            }
+
+        }
+    } 
+
+    function resetPaginationLabel() {
+        $('#paginationText').text(startRowNo + "-" + endRowNo + " of " + leadResponse.length);
+    }
 
   $('#rowsPerPageSelect').change(function() {
+    //   loadLeads();
 
     var requestedNoOfRows = $(this).val();
     noOfRowsDisplayed = $('ul#mobileTableContents li').length;
@@ -136,16 +179,19 @@
     if(requestedNoOfRows < noOfRowsDisplayed)
     {
         var i = noOfRowsDisplayed - requestedNoOfRows;
+        endRowNo = endRowNo - i;
         while (i > 0)
         {
             tableRow = $('ul#mobileTableContents li:last-child');
             $('ul#mobileTableContents li:last-child').remove();
             i--;
         }
+        resetPaginationLabel();
     }
     else
     {
         // add 
+        // TODO
     }
      
 });

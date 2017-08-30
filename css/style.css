@@ -107,6 +107,11 @@ table.highlight tbody tr:hover {
     display: initial;
     padding: 2px;
 }
+.navBrandLogo {
+    height:65px; 
+    width: 190px;
+}
+
 
 /*.handOnHover {
     cursor: pointer;
