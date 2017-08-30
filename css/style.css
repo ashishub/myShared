@@ -78,6 +78,40 @@ table.highlight tbody tr:hover {
 }
 }
 
+.napaBlue {
+    color: #001489;
+}
+
+.greenBadge {
+    font-weight: 500;
+    font-size: 0.8rem;
+    color: #fff;
+    background-color: #26a69a;
+    border-radius: 2px;
+    text-align: center;
+    line-height: 22px;
+    height: 22px;
+    display: initial;
+    padding: 2px;
+}
+
+.yellowBadge {
+    font-weight: 500;
+    font-size: 0.8rem;
+    color: #000;
+    background-color: #ffeb3b;
+    border-radius: 2px;
+    text-align: center;
+    line-height: 22px;
+    height: 22px;
+    display: initial;
+    padding: 2px;
+}
+
+/*.handOnHover {
+    cursor: pointer;
+}*/
+
 /*th {
     background-color: #4CAF50;
     color: white;
