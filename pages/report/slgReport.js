@@ -32,13 +32,6 @@
 
     loadLeads();
 
-
-    // TODO
-    function nextClicked() 
-    {
-
-    }
-
     /** Call webservice and get the data from back end */
     function loadLeads() 
     {
@@ -74,11 +67,11 @@
     {
         var lead;
         var title, listPrice, storeQty, dcQty, storeName, tbRow, partDesc;
-        if(startRow < leadResponse.length && leadResponse.length < endRow)
+        if(startRow <= leadResponse.length && leadResponse.length < endRow)
         {
             endRow = leadResponse.length;
         }
-        else if (startRow > leadResponse.length)
+        else if (startRow > leadResponse.length || startRow <= 0)
         {
             // no rows to display.
             // TODO disable the next button.
@@ -165,39 +158,62 @@
             }
 
         }
-    } 
+    }
+
+    $(".paginationBtns").click(function() {
+        console.log("id is " +$(this).attr('id'));
+        var btnName = $(this).attr('id');
+        var displayedNoOfRows = parseInt($('#rowsPerPageSelect').val());
+        if(btnName == "forwardPage" && endRowNo != leadResponse.length)
+        {
+            startRowNo = endRowNo + 1;
+            endRowNo = (endRowNo + displayedNoOfRows) > leadResponse.length ? leadResponse.length : (endRowNo + displayedNoOfRows);
+            addOrUpdateTableRows(startRowNo, endRowNo);
+        }
+        else if(btnName == "backPage" && startRowNo != 1)
+        {
+            if((startRowNo - displayedNoOfRows) < 1) //21-30 = -9
+            {
+                startRowNo = 1;
+                endRowNo = displayedNoOfRows;
+            }
+            else
+            {
+                endRowNo = startRowNo - 1; //subtract 1 from previous page start value (ex:- 21 - 1 = 20)
+                startRowNo = startRowNo - displayedNoOfRows; //subtract 10 or no. of rows from previous page start value (ex:- 21 - 10 = 11)
+            }
+            addOrUpdateTableRows(startRowNo, endRowNo);
+        }
+    });
 
     function resetPaginationLabel() {
         $('#paginationText').text(startRowNo + "-" + endRowNo + " of " + leadResponse.length);
     }
 
-  $('#rowsPerPageSelect').change(function() {
-    //   loadLeads();
-
-    var i;
-    var requestedNoOfRows = $(this).val();
-    noOfRowsDisplayed = $('ul#mobileTableContents li').length;
-    var tableRow;
-    if(requestedNoOfRows < noOfRowsDisplayed)
-    {
-        i = noOfRowsDisplayed - requestedNoOfRows;
-        endRowNo = endRowNo - i;
-        while (i > 0)
+    $('#rowsPerPageSelect').change(function() {
+        var i;
+        var requestedNoOfRows = $(this).val();
+        noOfRowsDisplayed = $('ul#mobileTableContents li').length;
+        var tableRow;
+        if(requestedNoOfRows < noOfRowsDisplayed)
         {
-            tableRow = $('ul#mobileTableContents li:last-child');
-            $('ul#mobileTableContents li:last-child').remove();
-            i--;
+            i = noOfRowsDisplayed - requestedNoOfRows;
+            endRowNo = endRowNo - i;
+            while (i > 0)
+            {
+                tableRow = $('ul#mobileTableContents li:last-child');
+                $('ul#mobileTableContents li:last-child').remove();
+                i--;
+            }
+            resetPaginationLabel();
         }
-        resetPaginationLabel();
-    }
-    else
-    {
-        i = requestedNoOfRows - noOfRowsDisplayed;
-        endRowNo = endRowNo + i;
-        addOrUpdateTableRows(startRowNo, endRowNo );
-        // add 
-        // TODO
-    }
+        else
+        {
+            i = requestedNoOfRows - noOfRowsDisplayed;
+            endRowNo = endRowNo + i;
+            addOrUpdateTableRows(startRowNo, endRowNo );
+        }
+        noOfRowsDisplayed = requestedNoOfRows;
      
 });
 
