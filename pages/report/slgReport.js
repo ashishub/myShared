@@ -60,7 +60,7 @@
                     startRowNo = 1;
                     endRowNo = noOfRowsDisplayed;
                 }
-                loadTable(startRowNo, endRowNo);
+                addOrUpdateTableRows(startRowNo, endRowNo);
             }
             else
             {
@@ -70,10 +70,10 @@
         });
     }
 
-    function loadTable(startRow, endRow) 
+    function addOrUpdateTableRows(startRow, endRow) 
     {
         var lead;
-        var title, listPrice, storeQty, dcQty, storeNum, tbRow, partDesc;
+        var title, listPrice, storeQty, dcQty, storeName, tbRow, partDesc;
         if(startRow < leadResponse.length && leadResponse.length < endRow)
         {
             endRow = leadResponse.length;
@@ -87,6 +87,7 @@
         }
         startRowNo = startRow;
         endRowNo = endRow;
+        $('ul#mobileTableContents').empty();
         for (var i = startRow - 1; i < endRow; i ++)
         {
             lead = leadResponse[i];
@@ -94,7 +95,7 @@
             listPrice = "";
             storeQty = "";
             dcQty = "";
-            storeNum = "";
+            storeName = "";
             if(isEmptyOrBlank(lead.PartNumber) && $.trim(lead.PartNumber) != "")
             {
                 title = $.trim(lead.PartNumber);
@@ -119,9 +120,9 @@
             {
                 dcQty = $.trim(lead.DC_Quantity);
             }
-            if(!isEmptyOrBlank(lead.NapaStoreNumber))
+            if(!isEmptyOrBlank(lead.StoreName))
             {
-                storeNum = $.trim(lead.NapaStoreNumber);
+                storeName = $.trim(lead.StoreName);
             }
 
             tbRow = '<li class="collection-item avatar">' +
@@ -145,14 +146,14 @@
             tbRow = tbRow +     
                     '<p>' +
                         'List Price: $' +listPrice+ ' <br> ' +
-                        'Store #: ' + storeNum + '<br>' +
                         
                         // 'Quantity - Store: ' + storeQty + ' | Dc: ' + dcQty + '<br>' +
-                        'Quantity - Store: <span class="greenBadge">' + storeQty + '</span> DC: <span class="yellowBadge">' + dcQty + '</span><br>' +
+                        'Qty - Store: <span class="greenBadge">' + storeQty + '</span> DC: <span class="yellowBadge">' + dcQty + '</span><br>' +
+                        'Store #: ' + storeName +
                         
                     '</p>' +
-                    '<a class=" secondary-content btn-floating btn-small waves-effect waves-light napaActionButton">' +
-                        '<i class="small material-icons">mode_edit</i>' +
+                    '<a class=" secondary-content btn-floating btn-small waves-effect waves-light">' +
+                        '<i class="napaActionButton material-icons">mode_edit</i>' +
                     '</a>' +
                 '</li>'; 
             $('ul#mobileTableContents').append(tbRow);
@@ -173,12 +174,13 @@
   $('#rowsPerPageSelect').change(function() {
     //   loadLeads();
 
+    var i;
     var requestedNoOfRows = $(this).val();
     noOfRowsDisplayed = $('ul#mobileTableContents li').length;
     var tableRow;
     if(requestedNoOfRows < noOfRowsDisplayed)
     {
-        var i = noOfRowsDisplayed - requestedNoOfRows;
+        i = noOfRowsDisplayed - requestedNoOfRows;
         endRowNo = endRowNo - i;
         while (i > 0)
         {
@@ -190,6 +192,9 @@
     }
     else
     {
+        i = requestedNoOfRows - noOfRowsDisplayed;
+        endRowNo = endRowNo + i;
+        addOrUpdateTableRows(startRowNo, endRowNo );
         // add 
         // TODO
     }

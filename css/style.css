@@ -64,7 +64,7 @@ table.highlight tbody tr:hover {
 }
 
 .napaActionButton {
-    color: rgb(0, 20, 137);
+    color: rgb(0, 20, 137) !important;
     background-color: rgb(255, 199, 44);
 }
 
