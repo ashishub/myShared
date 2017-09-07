@@ -2,6 +2,24 @@
   $(function(){
 
     console.log("Loaded the Reports page");
+    $('#detailedLeadTbl').DataTable( {
+        "pagingType": "simple_numbers",
+        "autoWidth": false,
+        "language": {
+                        "emptyTable": "No assigned Leads in your region."
+                    },
+         "columns": [
+                        null,
+                        null,
+                        null,
+                        { "width": "140px" },
+                        { "width": "150px" },
+                        null,
+                        null,
+                        null,
+                        null
+                    ]
+    } );
 
     var noOfRowsDisplayed = 10;
     var startRowNo = 1;
@@ -53,7 +71,15 @@
                     startRowNo = 1;
                     endRowNo = noOfRowsDisplayed;
                 }
-                addOrUpdateTableRows(startRowNo, endRowNo);
+                var isMobileView = $('#mobileTable').is(':visible');
+                if(isMobileView)
+                {
+                    addOrUpdateTableRows(startRowNo, endRowNo);
+                }
+                else
+                {
+                    loadDesktopTable();
+                }
             }
             else
             {
@@ -63,10 +89,60 @@
         });
     }
 
+    function loadDesktopTable()
+    {
+        var lead;
+        var searchTerms, tableRow;
+        for(var i = 0; i < leadResponse.length; i++)
+        {
+            lead = leadResponse[i];
+            if(isEmptyOrBlank(lead.PartNumber) && $.trim(lead.PartNumber) != "")
+            {
+                searchTerms = $.trim(lead.PartNumber);
+            }
+            else
+            {
+                searchTerms = $.trim(lead.SearchedKeyword);
+            }
+
+            tableRow = 
+            '<tr>' +
+                    '<td>'+ searchTerms+'</td>' +
+                    '<td>$'+ lead.ListPrice +'</td>' +
+                    '<td>' + lead.PPSE_or_PRolink + '</td>' +
+                    '<td>' + lead.PartNumber + ' - ' + lead.Partdescription+ '</td>' +
+                    '<td>' + lead.NapaStoreNumber + ' - ' + lead.StoreName+ '</td>' +
+                    '<td>$'+ lead.CustomerName +'</td>' +
+                    '<td>$'+ lead.CustomerNumber +'</td>' +
+                    '<td>' + lead.DCName + ' / ' + lead.DCDivision+ '</td>' +
+                    '<td>' +
+                        '<a class="secondary-content btn-floating waves-effect waves-light editLead">' +
+                            '<i class="tiny material-icons napaActionButton">mode_edit</i>' +
+                        '</a>' +
+                    '</td>' +
+            '</tr>';
+            // $("#detailedLeadTbl > tbody").append(tableRow);
+            $('#detailedLeadTbl').DataTable().row.add([
+                searchTerms, 
+                '$' + lead.ListPrice,
+                lead.PPSE_or_PRolink,
+                lead.PartNumber + ' - ' + lead.Partdescription,
+                lead.NapaStoreNumber + ' - ' + lead.StoreName,
+                lead.CustomerName,
+                lead.CustomerNumber,
+                lead.DCName + ' / ' + lead.DCDivision,
+                '<a class="secondary-content btn-floating waves-effect waves-light editLead">' +
+                            '<i class="tiny material-icons napaActionButton">mode_edit</i>' +
+                        '</a>'
+                ]).draw( false );
+        }
+
+    }
+
     function addOrUpdateTableRows(startRow, endRow) 
     {
         var lead;
-        var title, listPrice, storeQty, dcQty, storeName, tbRow, partDesc, customerName;
+        var title, listPrice, storeQty, dcQty, storeName, tbRow, partDesc, customerName, applicationName;
         if(startRow <= leadResponse.length && leadResponse.length < endRow)
         {
             endRow = leadResponse.length;
