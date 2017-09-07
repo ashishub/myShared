@@ -66,7 +66,7 @@
     function addOrUpdateTableRows(startRow, endRow) 
     {
         var lead;
-        var title, listPrice, storeQty, dcQty, storeName, tbRow, partDesc;
+        var title, listPrice, storeQty, dcQty, storeName, tbRow, partDesc, customerName;
         if(startRow <= leadResponse.length && leadResponse.length < endRow)
         {
             endRow = leadResponse.length;
@@ -89,6 +89,8 @@
             storeQty = "";
             dcQty = "";
             storeName = "";
+            partDesc = "";
+            customerName = "";
             if(isEmptyOrBlank(lead.PartNumber) && $.trim(lead.PartNumber) != "")
             {
                 title = $.trim(lead.PartNumber);
@@ -117,6 +119,10 @@
             {
                 storeName = $.trim(lead.StoreName);
             }
+            if(!isEmptyOrBlank(lead.CustomerName))
+            {
+                customerName = $.trim(lead.CustomerName);
+            }
 
             tbRow = '<li class="collection-item avatar">' +
                     '<img src="images/header_logo.png" alt="" class="circle">';
@@ -142,10 +148,11 @@
                         
                         // 'Quantity - Store: ' + storeQty + ' | Dc: ' + dcQty + '<br>' +
                         'Qty - Store: <span class="greenBadge">' + storeQty + '</span> DC: <span class="yellowBadge">' + dcQty + '</span><br>' +
+                        'Customer: ' + customerName + '<br>' +
                         'Store #: ' + storeName +
                         
                     '</p>' +
-                    '<a class=" secondary-content btn-floating btn-small waves-effect waves-light">' +
+                    '<a class=" secondary-content btn-floating btn-small waves-effect waves-light editLead">' +
                         '<i class="napaActionButton material-icons">mode_edit</i>' +
                     '</a>' +
                 '</li>'; 
@@ -158,6 +165,30 @@
             }
 
         }
+    }
+
+    $('#main-content').on('click', 'a.editLead', function() {
+        load_LeadsViewPage();
+    });
+
+    function load_LeadsViewPage() {
+        // clearContents();
+        // $("#menuNavBar").removeClass("hiddendiv");
+        // $("#main-content").load("pages/leadInfo/leadInfo.html");
+
+        // $("#main-content").load("pages/leadInfo/leadModal.html");
+        var leadsInfoModal = $("#leadsViewModal");
+        if(null == leadsInfoModal || !leadsInfoModal.is("div"))
+        {
+            $.get("pages/leadInfo/leadModal.html", function(data){
+                $("#main-content").append(data);
+            });
+        }
+        else
+        {
+            loadLeadsModel();
+        }
+        // $(".modal").modal('open');
     }
 
     $(".paginationBtns").click(function() {

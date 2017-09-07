@@ -1,0 +1,146 @@
+<div id="leadsViewModal" class="modal modal-fixed-footer grey lighten-4">
+    <!--<button class="modal-close btn-flat" style="position:absolute;top:0;right:0;">X</button>-->
+    <div class="modal-content">
+        <h4>Search Term - CAB105</h4>
+        <div>
+            <span class="statusBadge">Not Interested</span>
+        </div>
+        <!-- Parts Section with image -->
+        <div class="row partInfo valign-wrapper z-depth-2 white">
+            <div class="col s3 m3 partInfoImg">
+                <img src="images/NWMTMB.jpeg" />
+            </div>
+            <div class="col s9 m9 ">
+                <h5>Storage Cabinet</h5>
+                <p>
+                    <span class="labelField">Part#: </span>CAB105<br>
+                    <span class="labelField">Product Line: </span>Echlin Ignition<br>
+                </p>
+            </div>
+        </div>
+
+
+        <div class="row z-depth-2 white">
+            <form class="col s12" id="leadSourceInfoForm">
+                <br/>
+                <div class="input-field col s12">
+                    <input disabled id="custNameInputTxt" type="text" value="Northeast Automotive">
+                    <label for="custNameInputTxt">Customer Name</label>
+                </div>
+                <div class="input-field col s6">
+                    <input disabled id="custNoTxtInp" type="text" value="D09001PART">
+                    <label for="custNoTxtInp">Customer #</label>
+                </div>
+                <div class="input-field col s6">
+                    <input disabled id="AppTxtInp" type="text" value="PPSE">
+                    <label for="AppTxtInp">Application Used</label>
+                </div>
+                <div class="input-field col s6">
+                    <input disabled id="ListPriceTxtInp" type="text" value="$1065.00">
+                    <label for="ListPriceTxtInp">List Price</label>
+                </div>
+                <div class="input-field col s6">
+                    <select id="LeadstatusDropDwn">
+                        <option value="" disabled>Choose your option</option>
+                        <option value="1" selected>Initiated</option>
+                        <option value="2">No Response</option>
+                        <option value="3">Response Received</option>
+                        <option value="4">Not Interested</option>
+                        <option value="5">Sale Closed</option>
+                    </select>
+                    <label for="LeadstatusDropDwn">Lead Status</label>
+                </div>
+                <div class="input-field col s6">
+                    <input disabled id="storeNameTxtInp" type="text" value="Northeast Automotive Parts,Inc">
+                    <label for="storeNameTxtInp">Store Name</label>
+                </div>
+                <div class="input-field col s6">
+                    <input disabled id="storeNoTxtInp" type="text" value="200008382">
+                    <label for="storeNoTxtInp">Store #</label>
+                </div>
+                <div class="input-field col s6">
+                    <input disabled id="dcNameInputTxt" type="text" value="Albany">
+                    <label for="dcNameInputTxt">DC Name</label>
+                </div>
+                <div class="input-field col s6">
+                    <input disabled id="dcNoTxtInp" type="text" value="NORTH">
+                    <label for="dcNoTxtInp">DC Division</label>
+                </div>
+                <div class="input-field col s6">
+                    <input disabled id="storeQtyTxt" type="text" value="4.00">
+                    <label for="storeQtyTxt">Store Qty</label>
+                </div>
+                <div class="input-field col s6">
+                    <input disabled id="dcQtyTxt" type="text" value="N/A">
+                    <label for="dcQtyTxt">DC Qty</label>
+                </div>
+            </form>
+        </div>
+
+        <!-- Comments section -->
+        <ul class="collapsible hoverable" data-collapsible="accordion">
+            <li>
+                <div class="collapsible-header"><a href="#!" class="valign-wrapper blueLink"><i class="material-icons">comment</i>Comments</a></div>
+                <div class="collapsible-body row">
+                    <!--<span>Lorem ipsum dolor sit amet.</span>-->
+                    <div class="input-field col s12 m9">
+                        <i class="material-icons prefix">mode_edit</i>
+                        <textarea id="textarea1" placeholder="Share your comments here!" class="materialize-textarea"></textarea>
+                        <!--<label for="textarea1" >Share your Comment here</label>-->
+                    </div>
+                    <div class="col s12 m3 center-align">
+                        <a href="#!" class="waves-effect waves-green btn napaActionButton ">Share</a>
+                    </div>
+                    <div class="section col s12">
+                        <h5>Recent Posts</h5>
+                        <div class="comments white row section">
+                            <ul class="collection">
+                                <li class="collection-item avatar">
+                                    <i class="material-icons circle">person</i>
+                                    <span class="title"><strong>Ashish Kumar Omprakash</strong></span>
+                                    <p class="grey-text">
+                                        2h ago.
+                                    </p>
+                                    <!--<a class="secondary-content btn-floating waves-effect waves-light editLead">
+                                        <i class="tiny material-icons napaActionButton">mode_edit</i>
+                                    </a>-->
+                                </li>
+                            </ul>
+                            <p class="commentsText">
+                                Some comments added by a user
+                            </p>
+                            <!--<div class="divider"></div>-->
+                            <div class="col s12">
+                                <a class="waves-effect waves-teal btn-flat valign-wrapper"><i class="material-icons tiny">thumb_up</i></a>
+                                <a class="waves-effect waves-teal btn-flat valign-wrapper"><i class="material-icons tiny">comment</i></a>
+                            </div>
+                        </div>
+                        <div class="comments white row section">
+                            <ul class="collection">
+                                <li class="collection-item avatar">
+                                    <i class="material-icons circle">person</i>
+                                    <span class="title"><strong>Evan Anderson</strong></span>
+                                    <p class="grey-text">
+                                        5days ago.
+                                    </p>
+                                </li>
+                            </ul>
+                            <p class="commentsText">
+                                After speaking with the associate, the customer requested price is not feasible.
+                            </p>
+                            <!--<div class="divider"></div>-->
+                            <div class="col s12">
+                                <a class="waves-effect waves-teal btn-flat valign-wrapper"><i class="material-icons tiny">thumb_up</i></a>
+                                <a class="waves-effect waves-teal btn-flat valign-wrapper"><i class="material-icons tiny">comment</i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="modal-footer">
+        <a href="#!" class="modal-action modal-close waves-effect waves-green btn napaActionButton ">Close</a>
+    </div>
+</div>
+<script src="pages/leadInfo/leadinfo.js"></script>

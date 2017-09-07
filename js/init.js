@@ -14,23 +14,52 @@
             $("#main-content").load("pages/slgReport.html");
         });
 
-        $(".brand-logo").click(function() {
+        $(".brand-logo, .logoutLink").click(function() {
             load_loginPage();
         });
 
-        $("#logoutLink").click(function() {
-            $("#main-content").load("pages/slgTable.html");
-        });
+        // $(".logoutLink").click(function() {
+        //     load_loginPage();
+        // });
+
+        // $('#main-content').on('click', 'a.editLead', function() {
+        //     load_LeadsViewPage();
+        // });
 
         function load_loginPage() {
             clearContents();
+            $("#menuNavBar").addClass("hiddendiv");
             $("#main-content").load("pages/login.html", function() {
                 onLoginLoad();
             });
+            //On clicking logout the side nav doesn;t close, this workaround.
+            $('#sidenav-overlay').trigger( "click" );
         }
+
+        // function load_LeadsViewPage() {
+        //     // clearContents();
+        //     // $("#menuNavBar").removeClass("hiddendiv");
+        //     // $("#main-content").load("pages/leadInfo/leadInfo.html");
+
+        //     // $("#main-content").load("pages/leadInfo/leadModal.html");
+        //     var leadsInfoModal = $("#leadsViewModal");
+        //     if(null == leadsInfoModal || !leadsInfoModal.is("div"))
+        //     {
+        //         $.get("pages/leadInfo/leadModal.html", function(data){
+        //             $("#main-content").append(data);
+        //         });
+        //     }
+        //     else
+        //     {
+        //         loadLeadsModel();
+        //     }
+        //     // $(".modal").modal('open');
+        // }
 
         function clearContents() {
             /** Reset the Style : height has to be removed which was set while loading login page. */
+            $('.tooltipped').tooltip('remove');
+            $('.material-tooltip').remove();
             $('#main-content').removeAttr("style");
             $('#main-content').empty();
         }
