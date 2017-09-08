@@ -17,7 +17,8 @@
                         null,
                         null,
                         null,
-                        null
+                        { "orderable": false },
+                        { "orderable": false, "visible": false }
                     ]
     } );
 
@@ -106,26 +107,27 @@
             }
 
             tableRow = 
-            '<tr>' +
-                    '<td>'+ searchTerms+'</td>' +
-                    '<td>$'+ lead.ListPrice +'</td>' +
-                    '<td>' + lead.PPSE_or_PRolink + '</td>' +
-                    '<td>' + lead.PartNumber + ' - ' + lead.Partdescription+ '</td>' +
-                    '<td>' + lead.NapaStoreNumber + ' - ' + lead.StoreName+ '</td>' +
-                    '<td>$'+ lead.CustomerName +'</td>' +
-                    '<td>$'+ lead.CustomerNumber +'</td>' +
-                    '<td>' + lead.DCName + ' / ' + lead.DCDivision+ '</td>' +
-                    '<td>' +
-                        '<a class="secondary-content btn-floating waves-effect waves-light editLead">' +
-                            '<i class="tiny material-icons napaActionButton">mode_edit</i>' +
-                        '</a>' +
-                    '</td>' +
-            '</tr>';
+            // '<tr>' +
+            //         '<td>'+ searchTerms+'</td>' +
+            //         '<td>$'+ lead.ListPrice +'</td>' +
+            //         '<td>' + lead.PPSE_or_PRolink + '</td>' +
+            //         '<td>' + lead.PartNumber + ' - ' + lead.Partdescription+ '</td>' +
+            //         '<td>' + lead.NapaStoreNumber + ' - ' + lead.StoreName+ '</td>' +
+            //         '<td>$'+ lead.CustomerName +'</td>' +
+            //         '<td>$'+ lead.CustomerNumber +'</td>' +
+            //         '<td>' + lead.DCName + ' / ' + lead.DCDivision+ '</td>' +
+            //         '<td>' +
+            //             '<a class="secondary-content btn-floating waves-effect waves-light editLead">' +
+            //                 '<i class="tiny material-icons napaActionButton">mode_edit</i>' +
+            //             '</a>' +
+            //         '</td>' +
+            // '</tr>';
             // $("#detailedLeadTbl > tbody").append(tableRow);
             $('#detailedLeadTbl').DataTable().row.add([
                 searchTerms, 
                 '$' + lead.ListPrice,
-                lead.PPSE_or_PRolink,
+                // lead.PPSE_or_PRolink,
+                'Response Received',
                 lead.PartNumber + ' - ' + lead.Partdescription,
                 lead.NapaStoreNumber + ' - ' + lead.StoreName,
                 lead.CustomerName,
@@ -133,11 +135,24 @@
                 lead.DCName + ' / ' + lead.DCDivision,
                 '<a class="secondary-content btn-floating waves-effect waves-light editLead">' +
                             '<i class="tiny material-icons napaActionButton">mode_edit</i>' +
-                        '</a>'
+                        '</a>',
+                lead
                 ]).draw( false );
         }
 
     }
+
+    var table = $('#detailedLeadTbl').DataTable();
+
+    $('#detailedLeadTbl tbody').on( 'click', 'tr', function () {
+        if ( $(this).hasClass('selected') ) {
+            $(this).removeClass('selected');
+        }
+        else {
+            table.$('tr.selected').removeClass('selected');
+            $(this).addClass('selected');
+        }
+    } );
 
     function addOrUpdateTableRows(startRow, endRow) 
     {
@@ -228,11 +243,16 @@
                         'Store #: ' + storeName +
                         
                     '</p>' +
-                    '<a class=" secondary-content btn-floating btn-small waves-effect waves-light editLead">' +
+                    '<a class=" secondary-content btn-floating btn-small waves-effect waves-light editLeadMobile">' +
                         '<i class="napaActionButton material-icons">mode_edit</i>' +
                     '</a>' +
-                '</li>'; 
+                '</li>';
+            // $(tbRow).data("lead", lead);
+            // console.log("lead.data() == "+$(tbRow).data("lead"));
             $('ul#mobileTableContents').append(tbRow);
+            $( "ul#mobileTableContents li:last-child" ).data("lead", lead);
+            console.log("from table li.data() == "+$( "ul#mobileTableContents li:last-child" ).data());
+            
             if(i == endRow - 1)
             {
                 // last recored reached. Stop.
@@ -242,8 +262,16 @@
 
         }
     }
-
+    
     $('#main-content').on('click', 'a.editLead', function() {
+        table.$('tr.selected').removeClass('selected');
+        $(this).closest("tr").addClass('selected');
+        load_LeadsViewPage();
+    });
+
+    $('#main-content').on('click', 'a.editLeadMobile', function() {
+        $('ul#mobileTableContents li.selected').removeClass('selected');
+        $(this).closest("li").addClass('selected');
         load_LeadsViewPage();
     });
 

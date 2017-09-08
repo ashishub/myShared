@@ -1,7 +1,7 @@
 <div id="leadsViewModal" class="modal modal-fixed-footer grey lighten-4">
     <!--<button class="modal-close btn-flat" style="position:absolute;top:0;right:0;">X</button>-->
     <div class="modal-content">
-        <h4>Search Term - CAB105</h4>
+        <h4>Search Term - <span id="searchLbl">CAB105</span></h4>
         <div>
             <span class="statusBadge">Not Interested</span>
         </div>
@@ -11,10 +11,10 @@
                 <img src="images/NWMTMB.jpeg" />
             </div>
             <div class="col s9 m9 ">
-                <h5>Storage Cabinet</h5>
+                <h5 id="partDesc">Storage Cabinet</h5>
                 <p>
-                    <span class="labelField">Part#: </span>CAB105<br>
-                    <span class="labelField">Product Line: </span>Echlin Ignition<br>
+                    <span class="labelField">Part#: </span><span id="partNo">CAB105</span><br>
+                    <span class="labelField">Product Line: </span><span id="prodLine">Echlin Ignition</span><br>
                 </p>
             </div>
         </div>
@@ -63,8 +63,8 @@
                     <label for="dcNameInputTxt">DC Name</label>
                 </div>
                 <div class="input-field col s6">
-                    <input disabled id="dcNoTxtInp" type="text" value="NORTH">
-                    <label for="dcNoTxtInp">DC Division</label>
+                    <input disabled id="dcDivTxtInp" type="text" value="NORTH">
+                    <label for="dcDivTxtInp">DC Division</label>
                 </div>
                 <div class="input-field col s6">
                     <input disabled id="storeQtyTxt" type="text" value="4.00">

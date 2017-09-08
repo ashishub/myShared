@@ -1,6 +1,7 @@
 $(document).ready(function(){
     // the "href" attribute of the modal trigger must specify the modal ID that wants to be triggered
 
+    var lead;
     loadLeadsModel();
     $('.collapsible').collapsible();
     $('select').material_select();
@@ -16,6 +17,52 @@ $(document).ready(function(){
       stopPropagation: false // Stops event propagation
     }
   );
+
+    assignValues();
+    function assignValues()
+    {
+        var searchTerms;
+        var isMobileView = $('#mobileTable').is(':visible');
+        if(isMobileView)
+        {
+            lead = $('ul#mobileTableContents li.selected').data('lead');
+        }
+        else
+        {
+            lead = $('#detailedLeadTbl').DataTable().row( '.selected' ).data()[9];
+        }
+        if(isEmptyOrBlank(lead.PartNumber) && $.trim(lead.PartNumber) != "")
+        {
+            searchTerms = $.trim(lead.PartNumber);
+            // $(".partInfo").show();
+            // console.log("showing partinfo")
+        }
+        else
+        {
+            searchTerms = $.trim(lead.SearchedKeyword);
+            // $(".partInfo").hide();
+        }
+        console.log("Search term is::"+searchTerms);
+        $("#searchLbl").text(searchTerms);
+        $("#partDesc").text(lead.Partdescription);
+        $("#AppTxtInp").val(lead.PPSE_or_PRolink);
+        $("#partNo").text(lead.PartNumber);
+        $("#ListPriceTxtInp").val('$' + lead.ListPrice);
+        $("#storeNoTxtInp").val(lead.NapaStoreNumber);
+        $("#custNameInputTxt").val(lead.CustomerName);
+        $("#custNoTxtInp").val(lead.CustomerNumber);
+        $("#storeNameTxtInp").val(lead.StoreName);
+        $("#storeQtyTxt").val(lead.Store_Quantity);
+        $("#dcQtyTxt").val(lead.DC_Quantity);
+        $("#dcNameInputTxt").val(lead.DCName);
+        $("#dcDivTxtInp").val(lead.DCDivision);
+        $("#prodLine").text(lead.LineCode);
+
+        if(lead.PartNumber)
+
+        console.log("selected value ::" +lead);
+        Materialize.updateTextFields();
+    }
 
     function loadLeadsModel()
     {
@@ -39,5 +86,14 @@ $(document).ready(function(){
     });
 
     Materialize.updateTextFields();
+
+    function isEmptyOrBlank(checkObject)
+    {
+        if(undefined != checkObject && null != checkObject)
+        {
+            return false;
+        }
+        return true;
+    }
 
   });
